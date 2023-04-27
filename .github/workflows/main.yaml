@@ -20,7 +20,7 @@ jobs:
     - id: 'upload-file'
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
-        path: '/public'
+        path: './public'
         destination: 'poc-deploy-web'
 
 
