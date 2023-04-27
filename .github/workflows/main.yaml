@@ -23,6 +23,7 @@ jobs:
       with:
         path: './public'
         destination: 'poc-deploy-web'
+        parent: false
 
 
     # # Example of using the output
