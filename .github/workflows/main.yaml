@@ -22,7 +22,7 @@ jobs:
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
         path: './public'
-        destination: 'poc-deploy-web'
+        destination: 'oceanft-stg-calucator-page'
 
 
     # # Example of using the output
