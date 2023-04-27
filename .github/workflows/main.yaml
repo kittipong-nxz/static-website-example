@@ -11,14 +11,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
+    
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/206279441114/locations/global/workloadIdentityPools/github-identity-pool/providers/github-identity-pool'
         service_account: 'github-actions-sa@oceanft-stg.iam.gserviceaccount.com'
-        token_format: 'access_token'
-        access_token_lifetime: '300s'
 
     - id: 'upload-file'
       uses: 'google-github-actions/upload-cloud-storage@v1'
