@@ -10,17 +10,19 @@ jobs:
       id-token: 'write'
 
     steps:
+    - uses: actions/checkou@v3
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/206279441114/locations/global/workloadIdentityPools/github-identity-pool/providers/github-identity-pool'
         service_account: 'github-actions-sa@oceanft-stg.iam.gserviceaccount.com'
 
-    # - id: 'upload-file'
-    #   uses: 'google-github-actions/upload-cloud-storage@v1'
-    #   with:
-    #     path: '/path/to/file'
-    #     destination: 'bucket-name/file'
+    - id: 'upload-file'
+      uses: 'google-github-actions/upload-cloud-storage@v1'
+      with:
+        path: '/public'
+        destination: 'poc-deploy-web'
+
 
     # # Example of using the output
     # - id: 'uploaded-files'
