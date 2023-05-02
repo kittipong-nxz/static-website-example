@@ -4,7 +4,7 @@ on: push
 
 jobs:
   deploy-noprod:
-    if: ${{ startsWith(github.ref_name, 'develop') }}
+    # if: ${{ startsWith(github.ref_name, 'develop') }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -38,7 +38,7 @@ jobs:
     #     path: './public'
     #     destination: 'poc-deploy-web'
     #     parent: false
-    
+
     # - name: upload 
     #   run:
     #     gsutil -m cp -R dir gs://my_bucket
