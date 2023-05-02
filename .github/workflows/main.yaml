@@ -3,31 +3,44 @@ name: Deploy to GCS
 on: push
 
 jobs:
-  job_id:
+  deploy-noprod:
+    if: ${{ startsWith(github.ref_name, 'develop') }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
       id-token: 'write'
-
     steps:
     - uses: actions/checkout@v3
-    
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18.13.0
+        
+    # - name: build website
+    #   run: |
+    #     npm install
+    #     npm run build
+
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/206279441114/locations/global/workloadIdentityPools/github-identity-pool/providers/github-identity-pool'
         service_account: 'github-actions-sa@oceanft-stg.iam.gserviceaccount.com'
 
-    - id: 'upload-file'
-      uses: 'google-github-actions/upload-cloud-storage@v1'
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
       with:
-        path: './public'
-        destination: 'poc-deploy-web'
-        parent: false
+        version: '>= 363.0.0'
 
-
-    # # Example of using the output
-    # - id: 'uploaded-files'
-    #   uses: 'foo/bar@main'
-    #   env:
-    #     file: '${{ steps.upload-file.outputs.uploaded }}'
+    # - id: 'upload-file'
+    #   uses: 'google-github-actions/upload-cloud-storage@v1'
+    #   with:
+    #     path: './public'
+    #     destination: 'poc-deploy-web'
+    #     parent: false
+    
+    # - name: upload 
+    #   run:
+    #     gsutil -m cp -R dir gs://my_bucket
+    # - name: invalidate cache
+    #   run: gcloud compute url-maps invalidate-cdn-cache poc-deploy-web --path "/*"
