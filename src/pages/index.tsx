@@ -305,7 +305,7 @@ export default function Home() {
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                   <div className="main-content flex w-full h-3/4 max-w-7xl mb-10 ml-12 mr-36">
                       <form className="w-full max-w-lg">
-                          <h1 className="text-2xl headline-header-title">Transfer Amount in USDT HELLO</h1>
+                          <h1 className="text-2xl headline-header-title">Transfer Amount in USDT</h1>
                           <br/>
                           <h1 className="text-2xl text-center">Today rate <b>{usdtToThb}</b> THB = <b>1</b> USDT</h1>
 
