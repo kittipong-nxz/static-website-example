@@ -44,4 +44,4 @@ jobs:
     #     gsutil -m cp -R dir gs://my_bucket
 
     - name: invalidate cache
-      run: gcloud compute url-maps invalidate-cdn-cache oceanft-stg-calculator --path "/*"
+      run: gcloud compute url-maps invalidate-cdn-cache oceanft-stg-calculator --path "/*"  --async
