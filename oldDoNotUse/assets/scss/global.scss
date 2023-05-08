@@ -1,0 +1,15 @@
+$base-width: 1280px;
+$--navigation-height: 68px;
+$--filter-width: 280px;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../dist/output.css" rel="stylesheet">
+    <title>Oceanft - 7D Average asset price</title>
+</head>
+<html>
+<script>
+    const SPREAD_PERCENT = 1.02
+    const ASSET_AMOUNT = "1000"
+    const ASSET_SYMBOL = "usdt"
+    const TO_CURRENCY = "thb"
+    const PERIOD_DAY = "6"  // The response count from 0 to 6 = 7 days
+    const REQUEST_PREFIX = "https://min-api.cryptocompare.com/data/v2/histoday?fsym="
+
+    const formatter = new Intl.NumberFormat('th-TH', {
+        style: 'currency',
+        currency: 'THB',
+    });
+
+    function roundingDecimal(inputValue){
+        return Math.round(inputValue * 100) / 100
+    }
+
+    function roundingAveragePrice(averagePrice){
+        return roundingDecimal(averagePrice)
+    }
+
+    function calculateSpreading(averagePrice){
+        spreadPrice = averagePrice * SPREAD_PERCENT
+        return roundingDecimal(spreadPrice)
+    }
+
+    function calculateAveragePrice(responseJson){
+        var total = 0
+        var responsePeriod = 0
+        responseJson["Data"]["Data"].forEach(element => {
+            total += element["close"]
+            responsePeriod++
+        });
+        
+        return total / responsePeriod
+    }
+
+    function onlyNumberKey(evt) {
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+    function getAveragePrice(assetAmount, assetSymbol, toCurrency, period) {
+        // var theUrl = "https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&tsym=USD&limit=6"
+        
+        var assetAmount = (typeof assetAmount === 'undefined') ? ASSET_AMOUNT : assetAmount;
+        var assetSymbol = (typeof assetSymbol === 'undefined') ? ASSET_SYMBOL : assetSymbol;
+        var toCurrency = (typeof toCurrency === 'undefined') ? TO_CURRENCY : toCurrency;
+        var period = (typeof period === 'undefined') ? PERIOD_DAY : period;
+
+        var requestUrl = REQUEST_PREFIX.concat(assetSymbol, "&tsym=", toCurrency, "&limit=", period)
+        
+        // document.getElementById("debug").innerHTML = requestUrl;
+
+        // Request to cryptocompare and parse to JSON
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", requestUrl, false); // false for synchronous request
+        xmlHttp.send(null);
+        var jsonObj = JSON.parse(xmlHttp.responseText);
+
+        // Calculate all value
+        var averagePrice = calculateAveragePrice(jsonObj)
+        var roundAveragePrice = roundingAveragePrice(averagePrice)
+        var calculateSpreadPrice = calculateSpreading(averagePrice)
+        var calculateTransferAmount = roundingDecimal(assetAmount * calculateSpreadPrice)
+
+        // Update the result
+        document.getElementById("averagePrice").value = formatter.format(roundAveragePrice);
+        document.getElementById("calculatedPrice").value = formatter.format(calculateSpreadPrice);
+        document.getElementById("transferAmount").value = formatter.format(calculateTransferAmount);
+
+        return xmlHttp.responseText;
+    }
+</script>
+
+<body>
+
+    <div class="ocean-main-container min-h-screen flex h-full justify-center">
+        <div class="ocean-main-bg flex flex-col w-full items-center" style="background-image: url('../dist/images/bg_home.svg')">
+            <div class="flex fixed bg-white w-full justify-center z-10">
+                <div class="nav-bar max-w-7xl w-full nav-content flex items-center h-17 bg-white justify-between">
+                <div class="nav-logo">
+                    <button>
+                    <img class="logo" src="../dist/images/logo.svg" />
+                    </button>
+                </div>
+                </div>
+            </div>
+    
+            <div class="max-w-5xl rounded overflow-hidden shadow-xl m-20">
+                <div class="main-content flex w-full h-3/4 max-w-7xl mb-10 ml-12 mr-36">
+                    <form class="w-full max-w-lg">
+                        <h1 class="text-2xl headline-header-title">7D Average asset price</h1>
+                        <div class="flex flex-wrap -mx-3 mb-6 m-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="inputAssetAmount">
+                            NFT Price
+                            </label>
+                            <input id="inputAssetAmount" class="appearance-none block w-full bg-gray-10 text-gray-700 border border-blue-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="integer" placeholder="NFT Price" onkeypress="return onlyNumberKey(event)">
+                            <p className="text-red-500 text-xs italic">Please choose a password.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="inputAssetSymbol">
+                            Asset Symbol
+                            </label>
+                            <input id="inputAssetSymbol" class="appearance-none block w-full bg-gray-10 text-gray-700 border border-blue-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Asset Symbol">
+                        </div>
+                        </div>
+                        <div class="flex flex-wrap -mx-3 mb-6 m-4">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="averagePrice">
+                                    Asset 7D average price
+                                </label>
+                                <input id="averagePrice" class="appearance-none block w-full bg-gray-200 text-green-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" type="text" placeholder="Asset 7D average price" readonly>
+                            </div>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="calculatedPrice">
+                                    Asset 7D average price + 2%
+                                </label>
+                                <input id="calculatedPrice" class="appearance-none block w-full bg-gray-200 text-green-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" type="text" placeholder="Asset 7D average price + 2%" readonly>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap -mx-3 mb-6 m-4">
+                            <div class="w-full md:w-2/2 px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="transferAmount">
+                                    Transfer Amount
+                                </label>
+                                <input id="transferAmount" class="appearance-none block w-full bg-gray-200 text-green-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" type="text" placeholder="Transfer Amount" readonly>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap -mx-3 mb-6 m-4">
+                            <div class="w-full md:w-2/2 px-3 mb-6 md:mb-0">
+                                <button class="wallet-button" type="button" onclick='getAveragePrice(document.getElementById("inputAssetAmount").value, 
+                                    document.getElementById("inputAssetSymbol").value)'>Get Quote</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+        </div>    
+      </div>
+</body>
+
+</html>

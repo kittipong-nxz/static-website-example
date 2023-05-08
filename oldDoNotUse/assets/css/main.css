@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Baloo Tamma 2', cursive;
+    min-height: 100vh;
+  }
+}
+
+.ocean-main-container {
+  background: linear-gradient(143.24deg, #bcdeff 8.49%, #c6e7ff 114.46%);
+}
+
+.ocean-main-bg {
+    background-size: cover;
+    background-position: center;
+}
+
+.main-content {
+    margin-top: 78px;
+    
+}
+
+.nav-bar-main {
+  display: flex;
+  align-items: center;
+  transition: all 500ms ease-in-out;
+}
+@media (max-width: 1024px) {
+  .nav-bar-main {
+    width: 0;
+    height: calc(100vh - 68px);
+    top: 68px;
+    position: absolute;
+    background-color: white;
+    flex-direction: column;
+    z-index: 10;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+ }
+}
+.nav-bar-main-active {
+  width: 30%;
+  opacity: 1;
+  visibility: visible;
+}
+@media (max-width: 768px) {
+  .nav-bar-main-active {
+    width: 40%;
+ }
+}
+@media (max-width: 600px) {
+  .nav-bar-main-active {
+    width: 50%;
+ }
+}
+@media (max-width: 414px) {
+  .nav-bar-main-active {
+    width: 100%;
+ }
+}
+.nav-bar-main .wallet-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 24px 12px;
+  gap: 8px;
+  min-width: 150px;
+  height: 44px;
+  background: linear-gradient(95.41deg, #055ffc 2.76%, #1dd9cd 233.78%);
+  border-radius: 60px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 150%;
+  text-align: center;
+  color: #fff;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-right: 16px;
+}
+.nav-bar-main li {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 150%;
+  color: #212135;
+  list-style: none;
+  outline: none;
+  margin-right: 46px;
+  cursor: pointer;
+}
+@media (max-width: 1024px) {
+  .nav-bar-main li {
+    margin-bottom: 32px;
+ }
+}
+.nav-bar-main .active {
+  border-color: linear-gradient(95.41deg, #055ffc 2.76%, #1dd9cd 233.78%);
+  border-bottom-width: 3px;
+}
+.nav-bar-hamburger {
+  position: absolute;
+  right: 16px;
+  top: calc((68px - 32px - 4px) / 2);
+  z-index: 3;
+  display: none;
+}
+@media (max-width: 1024px) {
+  .nav-bar-hamburger {
+    display: flex;
+ }
+}
+.nav-bar-hamburger .hamburger-btn {
+  display: flex;
+  height: 32px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  border-radius: 4px;
+}
+.nav-bar-hamburger .hamburger-btn span, .nav-bar-hamburger .hamburger-btn span:before, .nav-bar-hamburger .hamburger-btn span:after {
+  cursor: pointer;
+  border-radius: 1px;
+  height: 2px;
+  position: absolute;
+  width: 24px;
+  background: black;
+  display: block;
+  content: '';
+  transition: all 500ms ease-in-out;
+}
+.nav-bar-hamburger .hamburger-btn span:before {
+  top: -8px;
+}
+.nav-bar-hamburger .hamburger-btn span:after {
+  bottom: -8px;
+}
+.nav-bar-hamburger .hamburger-btn-active span {
+  background-color: transparent;
+}
+.nav-bar-hamburger .hamburger-btn-active span:before, .nav-bar-hamburger .hamburger-btn-active span:after {
+  top: 0;
+}
+.nav-bar-hamburger .hamburger-btn-active span:before {
+  transform: rotate(45deg);
+  border: 1px solid black;
+  background-color: black;
+}
+.nav-bar-hamburger .hamburger-btn-active span:after {
+  transform: rotate(-45deg);
+  border: 1px solid black;
+  background-color: black;
+}
+.nav-bar .logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+}
+
+/* INPUT */
+.input {
+  width: 100%;
+ /* Firefox */
+}
+.input input {
+  width: 100%;
+  border: 1px solid #dcdcdc;
+  height: 40px;
+  padding: 0 8px;
+  padding: 10px 16px 8px;
+  gap: 4px;
+  border: 1px solid rgba(183, 187, 196, 0.5);
+  border-radius: 40px;
+  font-size: 14px;
+  line-height: 150%;
+  color: #212135;
+  outline-color: #b7bbc4;
+  outline-width: 1px;
+}
+.input input::placeholder {
+  font-weight: 500;
+  font-size: 14px;
+  color: #dcdcdc;
+}
+.input input::-webkit-outer-spin-button, .input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+
+.wallet-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 24px 12px;
+  gap: 8px;
+  min-width: 150px;
+  height: 44px;
+  background: linear-gradient(95.41deg, #055ffc 2.76%, #1dd9cd 233.78%);
+  border-radius: 60px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 150%;
+  text-align: center;
+  color: #ffffff;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-right: 16px;
+}

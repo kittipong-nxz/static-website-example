@@ -16,10 +16,10 @@ jobs:
       with:
         node-version: 18.13.0
         
-    # - name: build website
-    #   run: |
-    #     npm install
-    #     npm run build
+    - name: build website
+      run: |
+        npm install
+        npm run build
 
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
@@ -35,7 +35,7 @@ jobs:
     - id: 'upload-file'
       uses: 'google-github-actions/upload-cloud-storage@v1'
       with:
-        path: './public'
+        path: './out'
         destination: 'poc-deploy-web'
         parent: false
 
